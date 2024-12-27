@@ -21,5 +21,5 @@ systemctl start backend
 
 dnf install mysql -y
 
-mysql -h 172.31.90.126 -uroot -pExpenseApp@1 < /app/schema/backend.sql
+mysql -h mysqldb.olgatechnologies.cloud -uroot -pExpenseApp@1 < /app/schema/backend.sql
 
