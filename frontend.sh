@@ -1,5 +1,5 @@
 dnf install nginx -y
-#single line comment instead we keep inside vim , we kept content in expense.conf and copied to that
+
 cp expense.conf /etc/nginx/default.d/expense.conf
 
 systemctl enable nginx
