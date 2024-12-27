@@ -1,25 +1,41 @@
-dnf module disable nodejs -y
-dnf module enable nodejs:18 -y
-dnf install nodejs -y
-useradd expense
-mkdir /app
+echo this is backend application
+source common.sh
 
+echo install NodeJS Repos
+dnf module disable nodejs -y  >> $log_file
+dnf module enable nodejs:18 -y >> $log_file
+dnf install nodejs -y >> $log_file
+
+echo Copy Backend Service File
 #keeping this copy command before changing directory in this sequence
-cp backend.service /etc/systemd/system/backend.service
+cp backend.service /etc/systemd/system/backend.service >> $log_file
 
-curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/backend.zip
-cd /app
-unzip /tmp/backend.zip
+echo Add Application user
+useradd expense >> $log_file
 
-cd /app
-npm install
+echo Clean App conetnt
+rm -rf /app >> $log_file
+mkdir /app >> $log_file
 
-systemctl daemon-reload
+echo Download app content
+curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/backend.zip >> $log_file
+cd /app  >> $log_file
 
-systemctl enable backend
-systemctl start backend
+echo extract app content
+unzip /tmp/backend.zip  >> $log_file
 
-dnf install mysql -y
+cd /app  >> $log_file
+echo download Dependencies
+npm install >> $log_file
 
-mysql -h mysqldb.olgatechnologies.cloud -uroot -pExpenseApp@1 < /app/schema/backend.sql
+echo  Start backend service demon-reload
+systemctl daemon-reload >> $log_file
+systemctl enable backend >> $log_file
+systemctl start backend >> $log_file
+
+echo install MYSQL client
+dnf install mysql -y >> $log_file
+
+echo load schema
+mysql -h mysqldb.olgatechnologies.cloud -uroot -pExpenseApp@1 < /app/schema/backend.sql >> $log_file
 

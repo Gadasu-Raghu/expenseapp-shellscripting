@@ -1,6 +1,6 @@
 #here created a variable log_file and calling it whereever it needed as a variable
-
-log_file=/tmp/expense.log
+echo this is frontend application
+source common.sh
 
 echo installing nginx
 dnf install nginx -y >> $log_file
