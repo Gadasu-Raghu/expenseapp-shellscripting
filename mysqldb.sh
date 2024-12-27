@@ -1,13 +1,10 @@
-dnf install nginx -y
-systemctl enable nginx
-systemctl start nginx
-rm -rf /usr/share/nginx/html/*
+dnf module disable mysql -y
 
-curl -o /tmp/frontend.zip https://expense-artifacts.s3.amazonaws.com/frontend.zip
-cd /usr/share/nginx/html
-unzip /tmp/frontend.zip
+cp mysql.repo /etc/yum.repos.d/mysql.repo
 
-vim /etc/nginx/default.d/expense.conf
+dnf install mysql-community-server -y
+systemctl enable mysqld
+systemctl start mysqld
 
-
-systemctl restart nginx
+mysql_secure_installation --set-root-pass ExpenseApp@1
+mysql -uroot -pExpenseApp@1
