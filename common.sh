@@ -9,3 +9,12 @@ download_and_extract(){
   unzip /tmp/$component.zip >> $log_file
   echo $?
 }
+
+stat_check() {
+  if [ $? -eq 0 ]; then
+    echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
+  else
+    echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
+    exit 1
+  fi
+}

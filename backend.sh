@@ -12,72 +12,38 @@ echo Copy Backend Service File
 cp backend.service /etc/systemd/system/backend.service &>> $log_file
 
 echo Add Application user
-useradd expense &>> $log_file
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
+id expense &>> $log_file
+if [ $? -ne 0 ]; then    # echo $? = 0 then user is there so, not equel to 0 then add
+  useradd expense &>> $log_file
 fi
 
+stat_check
 
 echo Clean App conetnt
 rm -rf /app &>> $log_file
 mkdir /app &>> $log_file
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
-fi
-
+stat_check
 
 cd /app  &>> $log_file
 
 download_and_extract
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
-fi
+stat_check
 
 cd /app  &>> $log_file
 echo download Dependencies
 npm install &>> $log_file
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
-fi
+stat_check
 
 echo  Start backend service demon-reload
 systemctl daemon-reload &>> $log_file
 systemctl enable backend &>> $log_file
 systemctl start backend &>> $log_file
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
-fi
+stat_check
 
 echo install MYSQL client
 dnf install mysql -y &>> $log_file
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
-fi
-
+stat_check
 
 echo load schema
 mysql -h mysqldb.olgatechnologies.cloud -uroot -pExpenseApp@1 < /app/schema/backend.sql &>> $log_file
-if [ $? -eq 0 ]; then
-  echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
-else
-  echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit 1
-fi
+stat_check
