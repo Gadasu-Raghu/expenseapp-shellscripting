@@ -20,5 +20,4 @@ stat_check
 
 echo setup root password
 mysql_secure_installation --set-root-pass ExpenseApp@1  &>>$log_file
-mysql -uroot -p ExpenseApp@1 &>>$log_file
 stat_check
