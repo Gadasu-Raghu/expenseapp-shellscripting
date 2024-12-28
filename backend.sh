@@ -2,10 +2,15 @@ echo this is backend application
 source common.sh
 component=backend
 
-echo install NodeJS Repos
-dnf module disable nodejs -y  &>> $log_file
-dnf module enable nodejs:18 -y &>> $log_file
-dnf install nodejs -y &>> $log_file
+
+type npm &>> $log_file
+if [ $? -nq 0 ]; then
+  echo install NodeJS Repos
+  dnf module disable nodejs -y  &>> $log_file
+  dnf module enable nodejs:18 -y &>> $log_file
+  dnf install nodejs -y &>> $log_file
+  stat_check
+fi
 
 echo Copy Backend Service File
 #keeping this copy command before changing directory in this sequence
@@ -16,7 +21,6 @@ id expense &>> $log_file
 if [ $? -ne 0 ]; then    # echo $? = 0 then user is there so, not equel to 0 then add
   useradd expense &>> $log_file
 fi
-
 stat_check
 
 echo Clean App conetnt
