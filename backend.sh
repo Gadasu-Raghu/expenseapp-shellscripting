@@ -13,33 +13,61 @@ cp backend.service /etc/systemd/system/backend.service &>> $log_file
 
 echo Add Application user
 useradd expense &>> $log_file
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
 
 echo Clean App conetnt
 rm -rf /app &>> $log_file
 mkdir /app &>> $log_file
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
 
 cd /app  &>> $log_file
 
 download_and_extract
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
 
 cd /app  &>> $log_file
 echo download Dependencies
 npm install &>> $log_file
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
 
 echo  Start backend service demon-reload
 systemctl daemon-reload &>> $log_file
 systemctl enable backend &>> $log_file
 systemctl start backend &>> $log_file
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
 
 echo install MYSQL client
 dnf install mysql -y &>> $log_file
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
 
 echo load schema
 mysql -h mysqldb.olgatechnologies.cloud -uroot -pExpenseApp@1 < /app/schema/backend.sql &>> $log_file
-echo $?
+if [ $? -eq 0 ]; then
+  echo SUCCESS
+else
+  echo FAILURE
+fi
