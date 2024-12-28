@@ -4,7 +4,7 @@ component=backend
 
 
 type npm &>> $log_file
-if [ $? -nq 0 ]; then
+if [ $? -ne 0 ]; then
   echo install NodeJS Repos
   dnf module disable nodejs -y  &>> $log_file
   dnf module enable nodejs:18 -y &>> $log_file
