@@ -49,5 +49,6 @@ dnf install mysql -y &>> $log_file
 stat_check
 
 echo load schema
-mysql -h mysqldb.olgatechnologies.cloud -uroot -pExpenseApp@1 < /app/schema/backend.sql &>> $log_file
+mysql_root_password=$1
+mysql -h mysqldb.olgatechnologies.cloud -uroot -p$mysql_root_password < /app/schema/backend.sql &>> $log_file
 stat_check
