@@ -17,7 +17,7 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
 
 
@@ -28,7 +28,7 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
 
 
@@ -39,7 +39,7 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
 
 cd /app  &>> $log_file
@@ -49,7 +49,7 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
 
 echo  Start backend service demon-reload
@@ -60,7 +60,7 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
 
 echo install MYSQL client
@@ -69,7 +69,7 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
 
 
@@ -79,5 +79,5 @@ if [ $? -eq 0 ]; then
   echo -e "\e[32mSUCCESS\e[0m"  # Green text for success
 else
   echo -e "\e[31mFAILURE\e[0m"  # Red text for failure
-  exit
+  exit 1
 fi
